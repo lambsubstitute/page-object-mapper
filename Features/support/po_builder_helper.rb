@@ -66,7 +66,7 @@ end
 def fix_method_names_and_lookups(temp, id, name_type)
   fixed_id = id.gsub('-', '_')
   lookup_name = fixed_id.upcase + name_type
-  @identifier_list.push(lookup_name + ' = ' + id)
+  @identifier_list.push(lookup_name + ' = "' + id + '"')
   return temp.gsub('fixed_id', fixed_id).gsub('@main_lookup_method_name', @main_lookup_method_name).gsub('lookup_name', lookup_name)
 end
 
