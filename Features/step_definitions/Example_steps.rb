@@ -31,66 +31,10 @@ And /^I map the div with the look up type of (.*) and name of (.*) with the clas
 end
 
 
-def lookup_text_fields(po)
-  # find all the text fields in the page and create methods to interact with each one
-  # this will only find text fields that are visible, present, and enabled
-  # once found it will store the id`s for the identified elements`
-  puts 'looking up textfields'
-  text_field_ids = Array.new()
-  text_fields = @browser.text_fields # returns a watir collection object of text field elements, this still finds textareas which dont work correctly yet
-
-  text_fields.each do |element|
-    if element.visible? && element.present? && element.enabled?
-      text_field_ids.push(element.attribute_value('id'))
-    end
-  end
-
-  text_field_ids.each do |id|
-    temp_text_methods = get_file(BASE_TEXT_FIELD_METHODS_FILE_LOCATION)
-    temp_text_methods = fix_method_names_and_lookups(temp_text_methods, id, "_TEXTFIELD_ID")
-    po = po.gsub('**ADD TEXT FIELD METHODS HERE**', temp_text_methods)
-  end
-
-  po = po.gsub('**ADD TEXT FIELD METHODS HERE**', '')
-  return po
-end
 
 
 
 
-def lookup_buttons(po)
-  # find all the buttons in the page and create methods to interact with each one
-  # this will only find text fields that are visible, present, and enabled
-  # once found it will store the id`s for the identified elements`
-  puts 'looking up buttons'
-  button_ids = Array.new()
-  buttons = @browser.buttons # returns a watir collection object of text field elements, this still finds textareas which dont work correctly yet
-
-  buttons.each do |element|
-    if element.visible? && element.present? && element.enabled?
-      button_ids.push(element.attribute_value('name'))
-    end
-  end
-
- button_ids.each do |id|
-    temp_button_methods = get_file(BASE_BUTTON_METHODS_FILE_LOCATION)
-    temp_button_methods = fix_method_names_and_lookups(temp_button_methods, id, "_BUTTON_NAME")
-    #puts temp_button_methods
-    po = po.gsub('**ADD BUTTON METHODS HERE**', temp_button_methods)
-  end
-
-  po = po.gsub('**ADD BUTTON METHODS HERE**', '')
-  return po
-end
-
-
-
-def fix_method_names_and_lookups(temp, id, name_type)
-  fixed_id = id.gsub('-', '_')
-  lookup_name = fixed_id.upcase + name_type
-  @identifier_list.push(lookup_name + ' = ' + id)
-  return temp.gsub('fixed_id', fixed_id).gsub('@main_lookup_method_name', @main_lookup_method_name).gsub('lookup_name', lookup_name)
-end
 
 
 
