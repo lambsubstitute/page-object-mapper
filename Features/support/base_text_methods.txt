@@ -1,0 +1,16 @@
+	def enter_text_into_fixed_id(text)
+		div = @main_lookup_method_name 
+		div.text_field(:id, lookup_name).set text
+	end
+
+	def clear_text_from_fixed_id 
+		div = @main_lookup_method_name 
+		div.text_field(:id, lookup_name).clear
+	end
+
+	def return_value_from_textfield_fixed_id 
+		div = @main_lookup_method_name
+		return div.text_field(:id, lookup_name).value
+	end
+
+	**ADD TEXT FIELD METHODS HERE**
