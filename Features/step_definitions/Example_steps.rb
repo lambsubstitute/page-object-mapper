@@ -28,10 +28,14 @@ And /^I map the div with the look up type of (.*) and name of (.*) with the clas
   page_object = page_object.gsub('**PUT LOOKUP HERE**', '')
   puts "page object after all amendments and from step defs"
   puts page_object
+
+  # dont forget you now need to save the page object
 end
 
 
+And /^I test the page objects by searching$/ do
 
+end
 
 
 
