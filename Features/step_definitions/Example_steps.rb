@@ -18,6 +18,7 @@ And /^I map the div with the look up type of (.*) and name of (.*) with the clas
 
   page_object = lookup_text_fields(page_object)
   page_object = lookup_buttons(page_object)
+  page_object = lookup_links(page_object)
 
   @identifier_list.each do |element|
     element = element + '

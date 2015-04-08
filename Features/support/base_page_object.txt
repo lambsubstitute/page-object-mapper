@@ -21,3 +21,8 @@
   # BUTTON METHODS
   **ADD BUTTON METHODS HERE**
   
+  # LINK METHODS
+   **ADD LINK METHODS HERE**
+  
+  
+  end

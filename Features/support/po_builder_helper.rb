@@ -122,3 +122,37 @@ def lookup_buttons(po)
   return po
 end
 
+
+def lookup_links(po)
+  # find all the buttons in the page and create methods to interact with each one
+  # this will only find text fields that are visible, present, and enabled
+  # once found it will store the id`s for the identified elements`
+  links = @browser.links # returns a watir collection object of text field elements, this still finds textareas which dont work correctly yet
+  po = sort_elements(*links, '**ADD LINK METHODS HERE**', '_LINKS', po, BASE_LINK_METHODS_FILE_LOCATION)
+return po
+end
+
+
+def sort_elements(*elements, method_message, element_type, po, base_file_location)
+  puts 'looking up: ' + element_type
+  element_ids = Array.new()
+ # elements = @browser.links # returns a watir collection object of text field elements, this still finds textareas which dont work correctly yet
+
+  elements.each do |element|
+    if element.visible? && element.present? && element.exists?
+      element_ids.push(element.attribute_value('text'))
+    end
+  end
+ # element_methods = get_file(base_file_location)
+  puts base_file_location
+  element_ids.each do |id|
+    element_methods = get_file(base_file_location)
+    temp_element_methods = fix_method_names_and_lookups(element_methods, id, element_type + '_TEXT')
+    #puts temp_element_methods
+    po = po.gsub(method_message, temp_element_methods)
+  end
+
+  po = po.gsub(method_message, '')
+  return po
+end
+
