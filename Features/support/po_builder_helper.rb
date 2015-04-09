@@ -12,7 +12,7 @@ def build_page_object_on_id(id_name, lookup_name)
   # build the initial page object based on an id based look up
   page_object = get_file(BASE_PAGE_OBJECT_FILE_LOCATION)
   page_object = replace_lookup(page_object, lookup_name)
-  page_object = replace_id_specific_changes(page_object) #page_object.gsub('class', 'id').gsub('MAIN_DIV_CLASS', 'MAIN_DIV_ID').gsub('/','"' )
+  page_object = replace_id_specific_changes(page_object)
   page_object = replace_classname(page_object, id_name)
   page_object = replace_look_up_method_name(page_object, lookup_name)
   return page_object
@@ -103,7 +103,7 @@ end
 def sort_elements(*elements, method_message, element_type, attribute_type,  po, base_file_location)
   # generic sorting method, takes collection of html, elements, element type, and the base file location which containbs the base methods to create for the element type provided
   # create array to store elements id`s used to make up the identifiers later
-  # go through each element and get the attribute value specified and store them in the identifier array TODO replace attribute type look up with a passed parameter
+  # go through each element and get the attribute value specified and store them in the identifier array
 
   # using the attrbute value go through and create a method set for each element of the type passed
 
