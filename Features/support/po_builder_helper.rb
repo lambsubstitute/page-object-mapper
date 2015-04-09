@@ -74,51 +74,18 @@ def lookup_text_fields(po)
   # find all the text fields in the page and create methods to interact with each one
   # this will only find text fields that are visible, present, and enabled
   # once found it will store the id`s for the identified elements`
-  puts 'looking up textfields'
-  text_field_ids = Array.new()
-  text_fields = @browser.text_fields # returns a watir collection object of text field elements, this still finds textareas which dont work correctly yet
-
-  text_fields.each do |element|
-    if element.visible? && element.present? && element.enabled?
-      text_field_ids.push(element.attribute_value('id'))
-    end
-  end
-
-  text_field_ids.each do |id|
-    temp_text_methods = get_file(BASE_TEXT_FIELD_METHODS_FILE_LOCATION)
-    temp_text_methods = fix_method_names_and_lookups(temp_text_methods, id, "_TEXTFIELD_ID")
-    po = po.gsub('**ADD TEXT FIELD METHODS HERE**', temp_text_methods)
-  end
-
-  po = po.gsub('**ADD TEXT FIELD METHODS HERE**', '')
+  text_fields = @browser.text_fields
+  po = sort_elements(*text_fields, '**ADD TEXT FIELD METHODS HERE**', '_TEXTFIELDS', 'id', po, BASE_TEXT_FIELD_METHODS_FILE_LOCATION)
   return po
 end
-
-
 
 
 def lookup_buttons(po)
   # find all the buttons in the page and create methods to interact with each one
   # this will only find text fields that are visible, present, and enabled
   # once found it will store the id`s for the identified elements`
-  puts 'looking up buttons'
-  button_ids = Array.new()
-  buttons = @browser.buttons # returns a watir collection object of text field elements, this still finds textareas which dont work correctly yet
-
-  buttons.each do |element|
-    if element.visible? && element.present? && element.enabled?
-      button_ids.push(element.attribute_value('name'))
-    end
-  end
-
-  button_ids.each do |id|
-    temp_button_methods = get_file(BASE_BUTTON_METHODS_FILE_LOCATION)
-    temp_button_methods = fix_method_names_and_lookups(temp_button_methods, id, "_BUTTON_NAME")
-    #puts temp_button_methods
-    po = po.gsub('**ADD BUTTON METHODS HERE**', temp_button_methods)
-  end
-
-  po = po.gsub('**ADD BUTTON METHODS HERE**', '')
+  buttons = @browser.buttons
+  po = sort_elements(*buttons, '**ADD BUTTON METHODS HERE**', '_BUTTONS', 'id', po, BASE_BUTTON_METHODS_FILE_LOCATION)
   return po
 end
 
@@ -128,30 +95,36 @@ def lookup_links(po)
   # this will only find text fields that are visible, present, and enabled
   # once found it will store the id`s for the identified elements`
   links = @browser.links # returns a watir collection object of text field elements, this still finds textareas which dont work correctly yet
-  po = sort_elements(*links, '**ADD LINK METHODS HERE**', '_LINKS', po, BASE_LINK_METHODS_FILE_LOCATION)
-return po
+  po = sort_elements(*links, '**ADD LINK METHODS HERE**', '_LINKS', 'text', po, BASE_LINK_METHODS_FILE_LOCATION)
+  return po
 end
 
 
-def sort_elements(*elements, method_message, element_type, po, base_file_location)
+def sort_elements(*elements, method_message, element_type, attribute_type,  po, base_file_location)
+  # generic sorting method, takes collection of html, elements, element type, and the base file location which containbs the base methods to create for the element type provided
+  # create array to store elements id`s used to make up the identifiers later
+  # go through each element and get the attribute value specified and store them in the identifier array TODO replace attribute type look up with a passed parameter
+
+  # using the attrbute value go through and create a method set for each element of the type passed
+
+
   puts 'looking up: ' + element_type
   element_ids = Array.new()
- # elements = @browser.links # returns a watir collection object of text field elements, this still finds textareas which dont work correctly yet
-
   elements.each do |element|
     if element.visible? && element.present? && element.exists?
-      element_ids.push(element.attribute_value('text'))
+      element_ids.push(element.attribute_value(attribute_type).gsub(' ', ''))
     end
   end
- # element_methods = get_file(base_file_location)
-  puts base_file_location
+
   element_ids.each do |id|
     element_methods = get_file(base_file_location)
-    temp_element_methods = fix_method_names_and_lookups(element_methods, id, element_type + '_TEXT')
-    #puts temp_element_methods
+    temp_element_methods = fix_method_names_and_lookups(element_methods, id, element_type + '_' + attribute_type.upcase)
+
+    # add place holder so next set of methods to be added know where to go
     po = po.gsub(method_message, temp_element_methods)
   end
 
+  # remove the holding message to clean up the new page object
   po = po.gsub(method_message, '')
   return po
 end
