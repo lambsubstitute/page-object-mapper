@@ -1,0 +1,16 @@
+	def set_checkbox_fixed_id
+		div = @main_lookup_method_name 
+		div.checkbox(:*LOOKUPTYPE*, lookup_name).set
+	end
+
+	def clear_checkbox_fixed_id 
+		div = @main_lookup_method_name 
+		div.checkbox(:*LOOKUPTYPE*, lookup_name).clear
+	end
+
+	def return_value_from_checkbox_fixed_id 
+		div = @main_lookup_method_name
+		return div.checkbox(:*LOOKUPTYPE*, lookup_name).value
+	end
+
+**ADD CHECKBOX METHODS HERE**

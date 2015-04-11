@@ -26,4 +26,11 @@ at_exit do
   @browser.close
 end
 
+module PageInitializer
+  def initialize(browser)
+    @browser = browser
+  end
+end
+
+
 

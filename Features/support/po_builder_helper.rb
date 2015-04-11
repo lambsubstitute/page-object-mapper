@@ -1,25 +1,4 @@
-def build_page_object_on_class(class_name, lookup_name)
-  # build the initial page object based on an class based look up
-  page_object = get_file(BASE_PAGE_OBJECT_FILE_LOCATION)
-  page_object = replace_lookup(page_object, lookup_name)
-  page_object = replace_classname(page_object, class_name)
-  page_object = replace_look_up_method_name(page_object, lookup_name)
-  return page_object
-end
-
-
-def build_page_object_on_id(id_name, lookup_name)
-  # build the initial page object based on an id based look up
-  page_object = get_file(BASE_PAGE_OBJECT_FILE_LOCATION)
-  page_object = replace_lookup(page_object, lookup_name)
-  page_object = replace_id_specific_changes(page_object)
-  page_object = replace_classname(page_object, id_name)
-  page_object = replace_look_up_method_name(page_object, lookup_name)
-  return page_object
-end
-
-
-def set_up_page_object(id_name, lookup_name, lookup_type)
+def set_up_page_object(class_name, lookup_name, lookup_type)
   @browser.div(lookup_type.to_sym, lookup_name).wait_until_present
   page_object = get_file(BASE_PAGE_OBJECT_FILE_LOCATION)
   page_object = replace_lookup(page_object, lookup_name)
@@ -28,10 +7,11 @@ def set_up_page_object(id_name, lookup_name, lookup_type)
     page_object = replace_id_specific_changes(page_object)
   end
 
-  page_object = replace_classname(page_object, id_name)
+  page_object = replace_classname(page_object, class_name)
   page_object = replace_look_up_method_name(page_object, lookup_name)
   return page_object
 end
+
 
 def replace_look_up_method_name(po, lookup_name)
   # replace the main div look up method with the name of the lookup element
@@ -78,6 +58,7 @@ def get_file(file_location)
   return data
 end
 
+
 def fix_method_names_and_lookups(temp, id, name_type, type)
   # fix the method name and the look up so that they do not contain illegal characters and conform to style
   # makes a set of default mnethods for the type provided and passes these back to be added tot he page object being built
@@ -87,6 +68,7 @@ def fix_method_names_and_lookups(temp, id, name_type, type)
   return temp.gsub('fixed_id', fixed_id).gsub('@main_lookup_method_name', @main_lookup_method_name).gsub('lookup_name', lookup_name).gsub('*LOOKUPTYPE*', type)
 end
 
+
 def lookup_text_fields(po, lookup_name)
   # find all the text fields in the page and create methods to interact with each one
   # this will only find text fields that are visible, present, and enabled
@@ -94,6 +76,16 @@ def lookup_text_fields(po, lookup_name)
   main_div = @browser.div(:id, lookup_name)
   text_fields = main_div.text_fields
   po = sort_elements(*text_fields, '**ADD TEXT FIELD METHODS HERE**', '_TEXTFIELDS', po, BASE_TEXT_FIELD_METHODS_FILE_LOCATION)
+  return po
+end
+
+def lookup_checkboxes(po, lookup_name)
+  # find all the text fields in the page and create methods to interact with each one
+  # this will only find text fields that are visible, present, and enabled
+  # once found it will store the id`s for the identified elements`
+  main_div = @browser.div(:id, lookup_name)
+  checkboxes = main_div.checkboxes
+  po = sort_elements(*checkboxes, '**ADD CHECKBOX METHODS HERE**', '_CHKBOX', po, BASE_CHECKBOX_METHODS_FILE_LOCATION)
   return po
 end
 
@@ -119,6 +111,7 @@ def lookup_links(po, lookup_name)
   return po
 end
 
+
 def lookup_selects(po, lookup_name)
   # find all the buttons in the page and create methods to interact with each one
   # this will only find text fields that are visible, present, and enabled
@@ -128,6 +121,7 @@ def lookup_selects(po, lookup_name)
   po = sort_elements(*selects, '**ADD SELECT METHODS HERE**', '_SELECT', po, BASE_SELECT_METHODS_FILE_LOCATION)
   return po
 end
+
 
 def lookup_radios(po, lookup_name)
   # find all the buttons in the page and create methods to interact with each one
@@ -186,6 +180,25 @@ def find_attribute_to_look_up(element)
     # pass back class as the type here
     return 'class'
   end
-
 end
+
+
+def inject_identifier_lookups(po)
+  puts "Adding identifier lookups"
+  @identifier_list.each do |element|
+    element = element + '
+    **PUT LOOKUP HERE**'
+    po = po.gsub('**PUT LOOKUP HERE**', element)
+  end
+
+  po = po.gsub('**PUT LOOKUP HERE**', '').gsub('**INSERT PAGE URL HERE**', @browser.url.to_s)
+  return po
+end
+
+
+def save_page_object(po)
+  puts "saving page object - save method need to store to file"
+  puts po
+end
+
 

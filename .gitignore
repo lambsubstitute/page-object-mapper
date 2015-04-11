@@ -52,3 +52,6 @@ Temporary Items
 .idea/page-object-mapper.iml
 .idea/misc.xml
 .idea/encodings.xml
+Features/support/dummy page objects/authentication_po.rb
+Features/support/dummy page objects/identify_po.rb
+Features/support/dummy page objects/dummy_po.rb
