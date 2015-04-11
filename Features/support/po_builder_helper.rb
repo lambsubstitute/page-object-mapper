@@ -64,37 +64,42 @@ def get_file(file_location)
 end
 
 def fix_method_names_and_lookups(temp, id, name_type)
-  fixed_id = id.gsub('-', '_')
+  # fix the method name and the look up so that they do not contain illegal characters and conform to style
+  # makes a set of default mnethods for the type provided and passes these back to be added tot he page object being built
+  fixed_id = id.gsub('-', '_').gsub('+', '').gsub(' ', '').gsub('\n', '').gsub("\n", '').gsub('\n', '')
   lookup_name = fixed_id.upcase + name_type
   @identifier_list.push(lookup_name + ' = "' + id + '"')
   return temp.gsub('fixed_id', fixed_id).gsub('@main_lookup_method_name', @main_lookup_method_name).gsub('lookup_name', lookup_name)
 end
 
-def lookup_text_fields(po)
+def lookup_text_fields(po, lookup_name)
   # find all the text fields in the page and create methods to interact with each one
   # this will only find text fields that are visible, present, and enabled
   # once found it will store the id`s for the identified elements`
-  text_fields = @browser.text_fields
+  main_div = @browser.div(:id, lookup_name)
+  text_fields = main_div.text_fields
   po = sort_elements(*text_fields, '**ADD TEXT FIELD METHODS HERE**', '_TEXTFIELDS', 'id', po, BASE_TEXT_FIELD_METHODS_FILE_LOCATION)
   return po
 end
 
 
-def lookup_buttons(po)
+def lookup_buttons(po, lookup_name)
   # find all the buttons in the page and create methods to interact with each one
   # this will only find text fields that are visible, present, and enabled
   # once found it will store the id`s for the identified elements`
-  buttons = @browser.buttons
-  po = sort_elements(*buttons, '**ADD BUTTON METHODS HERE**', '_BUTTONS', 'id', po, BASE_BUTTON_METHODS_FILE_LOCATION)
+  main_div = @browser.div(:id, lookup_name)
+  buttons = main_div.buttons
+  po = sort_elements(*buttons, '**ADD BUTTON METHODS HERE**', '_BUTTONS', 'value', po, BASE_BUTTON_METHODS_FILE_LOCATION)
   return po
 end
 
 
-def lookup_links(po)
+def lookup_links(po, lookup_name)
   # find all the buttons in the page and create methods to interact with each one
   # this will only find text fields that are visible, present, and enabled
   # once found it will store the id`s for the identified elements`
-  links = @browser.links # returns a watir collection object of text field elements, this still finds textareas which dont work correctly yet
+  main_div = @browser.div(:id, lookup_name)
+  links = main_div.links # returns a watir collection object of text field elements, this still finds textareas which dont work correctly yet
   po = sort_elements(*links, '**ADD LINK METHODS HERE**', '_LINKS', 'text', po, BASE_LINK_METHODS_FILE_LOCATION)
   return po
 end
@@ -106,19 +111,21 @@ def sort_elements(*elements, method_message, element_type, attribute_type,  po, 
   # go through each element and get the attribute value specified and store them in the identifier array
 
   # using the attrbute value go through and create a method set for each element of the type passed
-
-
   puts 'looking up: ' + element_type
   element_ids = Array.new()
+  element_ids_types = Array.new()
   elements.each do |element|
     if element.visible? && element.present? && element.exists?
-      element_ids.push(element.attribute_value(attribute_type).gsub(' ', ''))
+      attribute_type = find_attribute_to_look_up(element)
+      element_ids_types.push attribute_type
+      element_ids.push(element.attribute_value(attribute_type))
     end
   end
 
+  count = 0
   element_ids.each do |id|
     element_methods = get_file(base_file_location)
-    temp_element_methods = fix_method_names_and_lookups(element_methods, id, element_type + '_' + attribute_type.upcase)
+    temp_element_methods = fix_method_names_and_lookups(element_methods, id, element_type + '_' + element_ids_types[count].upcase)
 
     # add place holder so next set of methods to be added know where to go
     po = po.gsub(method_message, temp_element_methods)
@@ -127,5 +134,23 @@ def sort_elements(*elements, method_message, element_type, attribute_type,  po, 
   # remove the holding message to clean up the new page object
   po = po.gsub(method_message, '')
   return po
+end
+
+
+def find_attribute_to_look_up(element)
+  if element.attribute_value('id') != ''
+    # pass back id as the type here
+    return 'id'
+  elsif element.attribute_value('name') != ''
+    # pass back name as the type here
+    return 'name'
+  elsif element.attribute_value('text') != ''
+    # pass back class as the type here
+    return 'text'
+  elsif element.attribute_value('class') != ''
+    # pass back class as the type here
+    return 'class'
+  end
+
 end
 
