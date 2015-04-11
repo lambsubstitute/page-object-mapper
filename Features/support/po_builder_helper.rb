@@ -18,6 +18,21 @@ def build_page_object_on_id(id_name, lookup_name)
   return page_object
 end
 
+
+def set_up_page_object(id_name, lookup_name, lookup_type)
+  @browser.div(lookup_type.to_sym, lookup_name).wait_until_present
+  page_object = get_file(BASE_PAGE_OBJECT_FILE_LOCATION)
+  page_object = replace_lookup(page_object, lookup_name)
+
+  if lookup_type == 'id'
+    page_object = replace_id_specific_changes(page_object)
+  end
+
+  page_object = replace_classname(page_object, id_name)
+  page_object = replace_look_up_method_name(page_object, lookup_name)
+  return page_object
+end
+
 def replace_look_up_method_name(po, lookup_name)
   # replace the main div look up method with the name of the lookup element
   # also store the main look up method name for use later
@@ -111,6 +126,16 @@ def lookup_selects(po, lookup_name)
   main_div = @browser.div(:id, lookup_name)
   selects = main_div.selects # returns a watir collection object of SELECTS (dropdowns) elements, this still finds textareas which dont work correctly yet
   po = sort_elements(*selects, '**ADD SELECT METHODS HERE**', '_SELECT', po, BASE_SELECT_METHODS_FILE_LOCATION)
+  return po
+end
+
+def lookup_radios(po, lookup_name)
+  # find all the buttons in the page and create methods to interact with each one
+  # this will only find text fields that are visible, present, and enabled
+  # once found it will store the id`s for the identified elements`
+  main_div = @browser.div(:id, lookup_name)
+  radios = main_div.radios # returns a watir collection object of SELECTS (dropdowns) elements, this still finds textareas which dont work correctly yet
+  po = sort_elements(*radios, '**ADD RADIO METHODS HERE**', '_RADIO', po, BASE_RADIO_METHODS_FILE_LOCATION)
   return po
 end
 

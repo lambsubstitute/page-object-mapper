@@ -1,0 +1,16 @@
+	def set_radio_fixed_id
+		div = @main_lookup_method_name 
+		div.radio(:*LOOKUPTYPE*, lookup_name).set
+	end
+
+	def clear_radio_fixed_id 
+		div = @main_lookup_method_name 
+		div.radio(:*LOOKUPTYPE*, lookup_name).clear
+	end
+
+	def return_value_from_radio_fixed_id 
+		div = @main_lookup_method_name
+		return div.radio(:*LOOKUPTYPE*, lookup_name).value
+	end
+
+**ADD RADIO METHODS HERE**

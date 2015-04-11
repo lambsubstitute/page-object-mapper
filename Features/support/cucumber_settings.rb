@@ -5,3 +5,4 @@ BASE_TEXT_FIELD_METHODS_FILE_LOCATION = './features/support/base_text_methods.tx
 BASE_BUTTON_METHODS_FILE_LOCATION = './features/support/base_button_methods.txt'
 BASE_LINK_METHODS_FILE_LOCATION = './features/support/base_link_methods.txt'
 BASE_SELECT_METHODS_FILE_LOCATION = './features/support/base_select_methods.txt'
+BASE_RADIO_METHODS_FILE_LOCATION = './features/support/base_radio_methods.txt'

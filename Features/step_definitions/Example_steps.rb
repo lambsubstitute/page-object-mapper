@@ -6,20 +6,24 @@ And /^I map the div with the look up type of (.*) and name of (.*) with the clas
   lookup_type = lookup_type.downcase
   @identifier_list = Array.new
 
-  if lookup_type == 'id'
-    @browser.div(:id, lookup_name).wait_until_present
-    page_object = build_page_object_on_id(po_class_name, lookup_name)
-  elsif lookup_type == 'class'
-    @browser.div(:class, lookup_name).wait_until_present
-    page_object = build_page_object_on_class(po_class_name, lookup_name)
-  else
-    puts "COULD NOT BUILD THE PAGE OBJECT AS THE TYPE LOOK UP FAILED"
-  end
+  #if lookup_type == 'id'
+  #  @browser.div(:id, lookup_name).wait_until_present
+  #  page_object = build_page_object_on_id(po_class_name, lookup_name)
+  #elsif lookup_type == 'class'
+  #  @browser.div(:class, lookup_name).wait_until_present
+  #  page_object = build_page_object_on_class(po_class_name, lookup_name)
+  #else
+  #  puts "COULD NOT BUILD THE PAGE OBJECT AS THE TYPE LOOK UP FAILED"
+  #end
+
+ page_object = set_up_page_object(po_class_name, lookup_name, lookup_type)
+
 
   page_object = lookup_text_fields(page_object, lookup_name)
   page_object = lookup_buttons(page_object, lookup_name)
   page_object = lookup_links(page_object, lookup_name)
   page_object = lookup_selects(page_object, lookup_name)
+  page_object = lookup_radios(page_object, lookup_name)
 
   @identifier_list.each do |element|
     element = element + '
