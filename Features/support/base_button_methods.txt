@@ -8,4 +8,4 @@
 		return div.button(:*LOOKUPTYPE*, lookup_name).value
 	end
 
-	**ADD BUTTON METHODS HERE**
+**ADD BUTTON METHODS HERE**

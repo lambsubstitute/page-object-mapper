@@ -8,4 +8,4 @@
 		return div.link(:*LOOKUPTYPE*, lookup_name).value
 	end
 
-	**ADD LINK METHODS HERE**
+**ADD LINK METHODS HERE**

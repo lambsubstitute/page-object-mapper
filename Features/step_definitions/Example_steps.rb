@@ -27,11 +27,12 @@ And /^I map the div with the look up type of (.*) and name of (.*) with the clas
     page_object = page_object.gsub('**PUT LOOKUP HERE**', element)
   end
 
-  page_object = page_object.gsub('**PUT LOOKUP HERE**', '')
-  puts "page object after all amendments and from step defs"
+  page_object = page_object.gsub('**PUT LOOKUP HERE**', '').gsub('**INSERT PAGE URL HERE**', @browser.url.to_s)
+  puts "building page object after all amendments and from step defs"
   puts page_object
 
   # dont forget you now need to save the page object
+  # TODO save page object as file
 end
 
 

@@ -13,4 +13,4 @@
 		return div.text_field(:*LOOKUPTYPE*, lookup_name).value
 	end
 
-	**ADD TEXT FIELD METHODS HERE**
+**ADD TEXT FIELD METHODS HERE**

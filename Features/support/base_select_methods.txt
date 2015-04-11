@@ -8,4 +8,4 @@
 		return div.select(:*LOOKUPTYPE*, lookup_name).options
 	end
 
-	**ADD SELECT METHODS HERE**
+**ADD SELECT METHODS HERE**

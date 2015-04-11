@@ -1,31 +1,31 @@
 # encoding: utf-8
 # class documentation
 
-**REPLACE_CLASS_NAME**
-  include PageInitializer
+# page built from: **INSERT PAGE URL HERE**
 
-	# Element identifiers
-	MAIN_DIV_CLASS = /**REPLACE_CLASS_LOOKUP**/
+**REPLACE_CLASS_NAME**
+    include PageInitializer
+
+    # Element identifiers
+    MAIN_DIV_CLASS = /**REPLACE_CLASS_LOOKUP**/
 	
-	**PUT LOOKUP HERE**
+    **PUT LOOKUP HERE**
   
-	def get_lookup_div
-		@browser.div(:class, MAIN_DIV_CLASS).wait_until_present
-		return @browser.div(:class, MAIN_DIV_CLASS)
-	end
+    def get_lookup_div
+	  @browser.div(:class, MAIN_DIV_CLASS).wait_until_present
+	  return @browser.div(:class, MAIN_DIV_CLASS)
+    end
   
   
-  # TEXT FIELD METHODS
-  **ADD TEXT FIELD METHODS HERE**
+    # TEXT FIELD METHODS
+**ADD TEXT FIELD METHODS HERE**
    
-  # BUTTON METHODS
-  **ADD BUTTON METHODS HERE**
+    # BUTTON METHODS
+**ADD BUTTON METHODS HERE**
   
-  # LINK METHODS
-   **ADD LINK METHODS HERE**
+    # LINK METHODS
+**ADD LINK METHODS HERE**
    
-  # SELECT METHODS
-   **ADD SELECT METHODS HERE**
-  
-  
-  end
+    # SELECT METHODS
+**ADD SELECT METHODS HERE**  
+end
