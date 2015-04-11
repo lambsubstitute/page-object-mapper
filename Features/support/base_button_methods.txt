@@ -1,11 +1,12 @@
 	def click_fixed_id_button
 		div = @main_lookup_method_name 
-		div.button(:id, lookup_name).click
+		div.button(:*LOOKUPTYPE*, lookup_name).click
 	end
 
 	def return_fixed_id_button_text 
 		div = @main_lookup_method_name 
-		return div.button(:id, lookup_name).value
+		return div.button(:*LOOKUPTYPE*, lookup_name).value
 	end
 
 	**ADD BUTTON METHODS HERE**
+	

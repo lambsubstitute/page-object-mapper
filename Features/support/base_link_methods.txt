@@ -1,11 +1,11 @@
 	def click_fixed_id_link
 		div = @main_lookup_method_name 
-		div.link(:id, lookup_name).click
+		div.link(:*LOOKUPTYPE*, lookup_name).click
 	end
 
 	def return_fixed_id_link_text 
 		div = @main_lookup_method_name 
-		return div.link(:id, lookup_name).value
+		return div.link(:*LOOKUPTYPE*, lookup_name).value
 	end
 
 	**ADD LINK METHODS HERE**

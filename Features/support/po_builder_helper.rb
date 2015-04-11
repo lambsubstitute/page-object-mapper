@@ -63,13 +63,13 @@ def get_file(file_location)
   return data
 end
 
-def fix_method_names_and_lookups(temp, id, name_type)
+def fix_method_names_and_lookups(temp, id, name_type, type)
   # fix the method name and the look up so that they do not contain illegal characters and conform to style
   # makes a set of default mnethods for the type provided and passes these back to be added tot he page object being built
   fixed_id = id.gsub('-', '_').gsub('+', '').gsub(' ', '').gsub('\n', '').gsub("\n", '').gsub('\n', '')
   lookup_name = fixed_id.upcase + name_type
   @identifier_list.push(lookup_name + ' = "' + id + '"')
-  return temp.gsub('fixed_id', fixed_id).gsub('@main_lookup_method_name', @main_lookup_method_name).gsub('lookup_name', lookup_name)
+  return temp.gsub('fixed_id', fixed_id).gsub('@main_lookup_method_name', @main_lookup_method_name).gsub('lookup_name', lookup_name).gsub('*LOOKUPTYPE*', type)
 end
 
 def lookup_text_fields(po, lookup_name)
@@ -125,7 +125,7 @@ def sort_elements(*elements, method_message, element_type, attribute_type,  po, 
   count = 0
   element_ids.each do |id|
     element_methods = get_file(base_file_location)
-    temp_element_methods = fix_method_names_and_lookups(element_methods, id, element_type + '_' + element_ids_types[count].upcase)
+    temp_element_methods = fix_method_names_and_lookups(element_methods, id, element_type + '_' + element_ids_types[count].upcase, element_ids_types[count])
 
     # add place holder so next set of methods to be added know where to go
     po = po.gsub(method_message, temp_element_methods)
