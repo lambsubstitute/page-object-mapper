@@ -78,7 +78,7 @@ def lookup_text_fields(po, lookup_name)
   # once found it will store the id`s for the identified elements`
   main_div = @browser.div(:id, lookup_name)
   text_fields = main_div.text_fields
-  po = sort_elements(*text_fields, '**ADD TEXT FIELD METHODS HERE**', '_TEXTFIELDS', 'id', po, BASE_TEXT_FIELD_METHODS_FILE_LOCATION)
+  po = sort_elements(*text_fields, '**ADD TEXT FIELD METHODS HERE**', '_TEXTFIELDS', po, BASE_TEXT_FIELD_METHODS_FILE_LOCATION)
   return po
 end
 
@@ -89,7 +89,7 @@ def lookup_buttons(po, lookup_name)
   # once found it will store the id`s for the identified elements`
   main_div = @browser.div(:id, lookup_name)
   buttons = main_div.buttons
-  po = sort_elements(*buttons, '**ADD BUTTON METHODS HERE**', '_BUTTONS', 'value', po, BASE_BUTTON_METHODS_FILE_LOCATION)
+  po = sort_elements(*buttons, '**ADD BUTTON METHODS HERE**', '_BUTTONS', po, BASE_BUTTON_METHODS_FILE_LOCATION)
   return po
 end
 
@@ -100,12 +100,22 @@ def lookup_links(po, lookup_name)
   # once found it will store the id`s for the identified elements`
   main_div = @browser.div(:id, lookup_name)
   links = main_div.links # returns a watir collection object of text field elements, this still finds textareas which dont work correctly yet
-  po = sort_elements(*links, '**ADD LINK METHODS HERE**', '_LINKS', 'text', po, BASE_LINK_METHODS_FILE_LOCATION)
+  po = sort_elements(*links, '**ADD LINK METHODS HERE**', '_LINKS', po, BASE_LINK_METHODS_FILE_LOCATION)
+  return po
+end
+
+def lookup_selects(po, lookup_name)
+  # find all the buttons in the page and create methods to interact with each one
+  # this will only find text fields that are visible, present, and enabled
+  # once found it will store the id`s for the identified elements`
+  main_div = @browser.div(:id, lookup_name)
+  selects = main_div.selects # returns a watir collection object of SELECTS (dropdowns) elements, this still finds textareas which dont work correctly yet
+  po = sort_elements(*selects, '**ADD SELECT METHODS HERE**', '_SELECT', po, BASE_SELECT_METHODS_FILE_LOCATION)
   return po
 end
 
 
-def sort_elements(*elements, method_message, element_type, attribute_type,  po, base_file_location)
+def sort_elements(*elements, method_message, element_type, po, base_file_location)
   # generic sorting method, takes collection of html, elements, element type, and the base file location which containbs the base methods to create for the element type provided
   # create array to store elements id`s used to make up the identifiers later
   # go through each element and get the attribute value specified and store them in the identifier array

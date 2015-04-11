@@ -23,6 +23,9 @@
   
   # LINK METHODS
    **ADD LINK METHODS HERE**
+   
+  # SELECT METHODS
+   **ADD SELECT METHODS HERE**
   
   
   end

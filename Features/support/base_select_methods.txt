@@ -1,0 +1,11 @@
+	def click_fixed_id_select(option)
+		div = @main_lookup_method_name 
+		div.select(:*LOOKUPTYPE*, lookup_name).select option
+	end
+
+	def return_options_fixed_id_link_select 
+		div = @main_lookup_method_name 
+		return div.select(:*LOOKUPTYPE*, lookup_name).options
+	end
+
+	**ADD SELECT METHODS HERE**
